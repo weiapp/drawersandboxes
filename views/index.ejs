@@ -1,11 +1,53 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+	<head>
+		<title><%= title %></title>
+		<link rel='stylesheet' href='/stylesheets/style.css' />
+		<script src='/javascripts/first.js'></script>
+	</head>
+	<body>
+            <% include menu %>
+		<h1>Clothes</h1>
+		<p>Express stock clothes application.</p>
+		<div id="data">
+			<% data.forEach(function(clothes) { %>
+			<div class="clothes">
+				<h2><%=clothes.clothesname%></h2>
+				<a href=''>
+				<img src='/images/<%=clothes.filelocation%>'/>
+			</div>
+			<% }) %>
+		</div>
+                <form method='post' entype='application/x-www-form-urlencoded' accept-charset="UTF-8">
+                    <p>season</p>
+                    <select name='season'>
+                        <option selected='selected'>All</option>
+                        <% seasons.forEach(function(clothes) {%>
+                            <option><%=clothes.season%></option>
+                        <% }) %>
+                    </select>
+                                       <p>color</p>
+                    <select name='color'>
+                        <option selected='selected'>All</option>
+                        <% colors.forEach(function(clothes) {%>
+                            <option><%=clothes.color%></option>
+                        <% }) %>
+                    </select> 
+                   <p>container</p>
+                    <select name='container'>
+                        <option selected='selected'>All</option>
+                        <% containers.forEach(function(clothes) {%>
+                            <option><%=clothes.container%></option>
+                        <% }) %>
+                    </select> 
+                   <p>texture</p>
+                    <select name='texture'>
+                        <option selected='selected'>All</option>
+                        <% textures.forEach(function(clothes) {%>
+                            <option><%=clothes.clothestexture%></option>
+                        <% }) %>
+                    </select> 
+                    <p><input type='submit', value='Filter'/></p>
+                </form>
+	</body>
 </html>
