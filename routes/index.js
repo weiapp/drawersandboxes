@@ -21,7 +21,7 @@ var db = mysql.createConnection({
 	});
 
 
-/*db.query(
+db.query(
 	'CREATE TABLE IF NOT EXISTS clothes ('
 	+ 'id INT(10) NOT NULL AUTO_INCREMENT, '
 	+ 'clothesname VARCHAR(100) NULL, '
@@ -41,7 +41,7 @@ var db = mysql.createConnection({
                 refresh();
 		}
 	);
-*/
+
 var refresh = function () {
 
         db.query( 'SELECT * FROM clothes',
