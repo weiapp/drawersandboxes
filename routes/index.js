@@ -149,8 +149,8 @@ router.get('/upload', function(req, res, next){
 
 router.post('/upload', function(req, res, next) {
 	forms.parse(req, function(err, fields, files) {
-            if (err) next(err);
-
+            if (err) return  next(err);
+		console.log(files);
             if (!files.clothesimage.length) {
 		var img = files.clothesimage;
 		var img2 = files.containerimg;
@@ -221,7 +221,6 @@ router.post('/upload', function(req, res, next) {
 			});
                     }
                 });
-
 
 
 res.redirect('/');
