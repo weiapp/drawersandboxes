@@ -182,7 +182,7 @@ router.post('/upload', function(req, res, next) {
 
 			});
 		} else {
-					var img = [];
+					var img;
 					var img2;
 					var path;
 					var path2;
@@ -190,13 +190,9 @@ router.post('/upload', function(req, res, next) {
                     container = fields.container;
                         img2 = files.containerimg;
                     files.clothesimage.forEach(function(file) {
-                        img.push(file);
-                    });
-                    img.forEach(function (pic) {
-                        path = join(req.app.get('images'), pic.name);
+                      path = join(req.app.get('images'), file.name);
 
-
-                        fs.rename(pic.path, path, function(err){
+                        fs.rename(file.path, path, function(err){
 
 							if (err) return next(err);
 
@@ -204,10 +200,8 @@ router.post('/upload', function(req, res, next) {
 							+ ' VALUES (?, ?, ?, ?)',
 							[pic.name, 'Shan', container, img2.name],
 							function (err) {
-								if(err) throw err;
-								}
-
-								);
+								if(err) return next(err);
+								});
 					});
 
                     });
