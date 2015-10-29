@@ -149,7 +149,7 @@ router.get('/upload', function(req, res, next){
 
 router.post('/upload', function(req, res, next) {
 	forms.parse(req, function(err, fields, files) {
-            if (err) throw next(err);
+            if (err) next(err);
 
             if (!files.clothesimage.length) {
 		var img = files.clothesimage;
