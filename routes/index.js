@@ -11,6 +11,7 @@ var colors;
 var seasons;
 var textures;
 var containers;
+forms.multiples = true;
 
 
 var db = mysql.createConnection({
@@ -148,6 +149,9 @@ router.get('/upload', function(req, res, next){
 
 router.post('/upload', function(req, res, next) {
 	forms.parse(req, function(err, fields, files) {
+            if (err) throw next(err);
+
+            if (!files.clothesimage.length) {
 		var img = files.clothesimage;
 		var img2 = files.containerimg;
 		var name = fields.clothesname||img.name;
@@ -157,7 +161,7 @@ router.post('/upload', function(req, res, next) {
 		var description = fields.clothesdescription;
 		var container = fields.container;
 		var path = join(req.app.get('images'), img.name);
-		var path2 = join(req.app.get('containerimages'), img2.name)
+		var path2 = join(req.app.get('containerimages'), img2.name);
 
 
 		fs.rename(img.path, path, function(err){
@@ -178,10 +182,49 @@ router.post('/upload', function(req, res, next) {
 					if (err) return next(err);
 
 			});
-		});
+		} else {
+					var img = [];
+					var img2;
+					var path;
+					var path2;
+
+                    container = fields.container;
+                        img2 = files.containerimg;
+                    files.clothesimage.forEach(function(file) {
+                        img.push(file);
+                    });
+                    img.forEach(function (pic) {
+                        path = join(req.app.get('images'), pic.name);
+
+
+                        fs.rename(pic.path, path, function(err){
+
+							if (err) return next(err);
+
+							db.query('INSERT INTO clothes (filelocation, clothesowner, container, containerimg) '
+							+ ' VALUES (?, ?, ?, ?)',
+							[pic.name, 'Shan', container, img2.name],
+							function (err) {
+								if(err) throw err;
+								}
+
+								);
+					});
+
+                    });
+
+
+                path2 = join(req.app.get('containerimages'), img2.name);
+                fs.rename(img2.path, path2, function (err) {
+					if (err) return next(err);
+
+			});
+                    }
+                });
+
 
 
 res.redirect('/');
-	});
+        });
 
 module.exports = router;
