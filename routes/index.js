@@ -113,7 +113,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next){
-    console.log(req);
+    
     if (req.body.season=='All') req.body.season='%' ;
 
     if (req.body.color=='All') req.body.color='%';
@@ -121,7 +121,7 @@ router.post('/', function(req, res, next){
 
     if (req.body.container=='All') req.body.container='%';
 
-    console.log(req.body);
+   
     db.query('SELECT * FROM clothes WHERE season LIKE ? AND '
             + 'color LIKE ? AND clothestexture LIKE ? AND container LIKE ? ',
             [req.body.season, req.body.color, req.body.texture, req.body.container], function (err, filtereddata, next){
@@ -149,7 +149,7 @@ router.get('/upload', function(req, res, next){
 
 router.post('/upload', function(req, res, next) {
 	forms.parse(req, function(err, fields, files) {
-console.log(req.body);
+console.log(req);
             if (err) return  next(err);
 
 
