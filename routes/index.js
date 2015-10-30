@@ -149,7 +149,7 @@ router.get('/upload', function(req, res, next){
 
 router.post('/upload', function(req, res, next) {
 	forms.parse(req, function(err, fields, files) {
-console.log(req);
+console.log(files);
             if (err) return  next(err);
 
 
