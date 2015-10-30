@@ -113,7 +113,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next){
-    console.log(req.body);
+    console.log(req);
     if (req.body.season=='All') req.body.season='%' ;
 
     if (req.body.color=='All') req.body.color='%';
@@ -149,7 +149,11 @@ router.get('/upload', function(req, res, next){
 
 router.post('/upload', function(req, res, next) {
 	forms.parse(req, function(err, fields, files) {
+console.log(req.body);
             if (err) return  next(err);
+
+
+
             if (!files.clothesimage.length) {
 		var img = files.clothesimage;
 		var img2 = files.containerimg;
@@ -172,7 +176,8 @@ router.post('/upload', function(req, res, next) {
 							+ ' VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)',
 							[name, texture, color, season, description, img.name, 'Shan', container, img2.name],
 							function (err) {
-								if(err) throw err;
+								console.log('Single file accessed');
+								if(err) return next(err);
 								}
 
 								);
@@ -200,6 +205,7 @@ router.post('/upload', function(req, res, next) {
 							+ ' VALUES (?, ?, ?, ?)',
 							[file.name, 'Shan', container, img2.name],
 							function (err) {
+								console.log('multiple files accessed');
 								if(err) return next(err);
 								});
 					});
