@@ -198,7 +198,7 @@ router.post('/upload', function(req, res, next) {
 
 							db.query('INSERT INTO clothes (filelocation, clothesowner, container, containerimg) '
 							+ ' VALUES (?, ?, ?, ?)',
-							[pic.name, 'Shan', container, img2.name],
+							[file.name, 'Shan', container, img2.name],
 							function (err) {
 								if(err) return next(err);
 								});
