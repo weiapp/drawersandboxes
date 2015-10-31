@@ -148,6 +148,7 @@ router.get('/upload', function(req, res, next){
 	});
 
 router.post('/upload', function(req, res, next) {
+console.log(req);
 	forms.parse(req, function(err, fields, files) {
 console.log(files);
             if (err) return  next(err);
@@ -187,8 +188,8 @@ console.log(files);
 
 			});
 		} else {
-					var img;
-					var img2;
+					var img=[];
+					var img2={};
 					var path;
 					var path2;
 
