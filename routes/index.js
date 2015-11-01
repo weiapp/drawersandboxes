@@ -25,10 +25,10 @@ var db = mysql.createConnection({
 db.query(
 	'CREATE TABLE IF NOT EXISTS clothes ('
 	+ 'id INT(10) NOT NULL AUTO_INCREMENT, '
-	+ 'clothesname VARCHAR(100) NULL, '
-	+ 'clothestexture CHAR(20) NULL, '
-	+ 'color CHAR(20) NULL, '
-	+ 'season CHAR(20) NULL, '
+	+ 'clothesname VARCHAR(100) NOT NULL, DEFAULT "none" '
+	+ 'clothestexture CHAR(20) NOT NULL, DEFAULT "none" '
+	+ 'color CHAR(20) NOT NULL, DEFAULT "none" '
+	+ 'season CHAR(20) NOT NULL, "none" '
 	+ 'description LONGTEXT NULL, '
 	+ 'filelocation VARCHAR(200) NOT NULL DEFAULT "error", '
 	+ 'clothesowner CHAR(20) NOT NULL DEFAULT "Shan", '
@@ -113,7 +113,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next){
-    
+
     if (req.body.season=='All') req.body.season='%' ;
 
     if (req.body.color=='All') req.body.color='%';
@@ -121,7 +121,7 @@ router.post('/', function(req, res, next){
 
     if (req.body.container=='All') req.body.container='%';
 
-   
+
     db.query('SELECT * FROM clothes WHERE season LIKE ? AND '
             + 'color LIKE ? AND clothestexture LIKE ? AND container LIKE ? ',
             [req.body.season, req.body.color, req.body.texture, req.body.container], function (err, filtereddata, next){
