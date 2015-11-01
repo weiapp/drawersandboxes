@@ -148,7 +148,7 @@ router.get('/upload', function(req, res, next){
 	});
 
 router.post('/upload', function(req, res, next) {
-
+	console.log(req);
 	forms.parse(req, function(err, fields, files) {
 console.log(files);
             if (err) return  next(err);
@@ -185,6 +185,7 @@ console.log(files);
 					});
                 fs.rename(img2.path, path2, function (err) {
 					if (err) return next(err);
+res.redirect('/');
 
 			});
 		} else {
@@ -218,12 +219,13 @@ console.log(files);
                 fs.rename(img2.path, path2, function (err) {
 					if (err) return next(err);
 
+res.redirect('/');
 			});
                     }
                 });
 
 
-res.redirect('/');
+//res.redirect('/');
         });
 
 module.exports = router;
