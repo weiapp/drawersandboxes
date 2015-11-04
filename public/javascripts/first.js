@@ -1,6 +1,6 @@
 window.onload = function () {
-var containerimg = document.getElementByName('containerimg')[0];
-var clothesimg = document.getElementByName('clothesimage')[0];
+var containerimg = document.getElementsByName('containerimg')[0];
+var clothesimg = document.getElementsByName('clothesimage')[0];
 
 containerimg.onclick = function () {
 

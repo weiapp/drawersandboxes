@@ -2,7 +2,10 @@ var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
 var formidable = require('formidable');
-var forms = new formidable.IncomingForm();
+var multiparty = require('multiparty');
+var util = require('util');
+
+//var forms = new multiparty.Form();
 var path = require('path');
 var join = path.join;
 var fs = require('fs');
@@ -11,7 +14,9 @@ var colors;
 var seasons;
 var textures;
 var containers;
-forms.multiples = true;
+
+
+
 
 
 var db = mysql.createConnection({
@@ -148,6 +153,8 @@ router.get('/upload', function(req, res, next){
 	});
 
 router.post('/upload', function(req, res, next) {
+    var forms = new formidable.IncomingForm();
+    forms.multiples = true;
 
 	forms.parse(req, function(err, fields, files) {
 console.log(files);
@@ -172,6 +179,8 @@ console.log(files);
 
 							if (err) return next(err);
 
+
+
 							db.query('INSERT INTO clothes (clothesname, clothestexture, color, '
 							+ 'season, description, filelocation, clothesowner, container, containerimg) '
 							+ ' VALUES (?, ?, ?, ?, ?, ?, ?, ?,?)',
@@ -185,7 +194,8 @@ console.log(files);
 					});
                 fs.rename(img2.path, path2, function (err) {
 					if (err) return next(err);
-res.redirect('/');
+
+//res.redirect('/');
 
 			});
 		} else {
@@ -193,6 +203,9 @@ res.redirect('/');
 					var img2={};
 					var path;
 					var path2;
+
+					
+
 
                     container = fields.container;
                         img2 = files.containerimg;
@@ -205,7 +218,8 @@ res.redirect('/');
 
 							db.query('INSERT INTO clothes (filelocation, clothesowner, container, containerimg) '
 							+ ' VALUES (?, ?, ?, ?)',
-							[file.name, 'Shan', container, img2.name],
+							[file.name, 'Shan', container, //img2.name
+                                                            'trial'],
 							function (err) {
 								console.log('multiple files accessed');
 								if(err) return next(err);
@@ -219,13 +233,20 @@ res.redirect('/');
                 fs.rename(img2.path, path2, function (err) {
 					if (err) return next(err);
 
-res.redirect('/');
+//res.redirect('/');
 			});
-                    }
+                }
+                   
                 });
 
 
 //res.redirect('/');
+forms.on('end', function (){
+    console.log('parsed');
+      refresh();
+
+        res.redirect('/');
+})
         });
 
 module.exports = router;
